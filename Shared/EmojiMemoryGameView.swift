@@ -9,16 +9,16 @@ struct EmojiMemoryGameView: View {
                 CardView(card: card)
                     .aspectRatio(2/3, contentMode: .fit)
                     .onTapGesture {
-                        memoryGame.choose(card: card)
+                        memoryGame.choose(card)
                     }
             }
         }
-        .padding()
+        .padding(.horizontal)
     }
 }
 
 struct CardView: View {
-    var card: MemoryGame<String>.Card
+    let card: MemoryGame<String>.Card
     
     var body: some View {
         GeometryReader { geometry in
@@ -28,7 +28,7 @@ struct CardView: View {
                         .fill(.white)
                     
                     RoundedRectangle(cornerRadius: cornerRadius)
-                        .stroke(lineWidth: edgeLineWidth)
+                        .strokeBorder(lineWidth: edgeLineWidth)
                     
                     Text(card.content)
                 } else {
@@ -38,6 +38,7 @@ struct CardView: View {
             }
             .foregroundColor(.orange)
             .font(.system(size: fontSize(for: geometry.size)))
+            .opacity(card.isMatched && !card.isFaceUp ? 0 : 1)
         }
     }
     
@@ -53,6 +54,5 @@ struct CardView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         EmojiMemoryGameView(memoryGame: EmojiMemoryGame())
-            .previewInterfaceOrientation(.portrait)
     }
 }
