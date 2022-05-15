@@ -1,15 +1,15 @@
 import SwiftUI
 
 struct EmojiMemoryGameView: View {
-    @ObservedObject var memoryGame: EmojiMemoryGame
+    @ObservedObject var game: EmojiMemoryGame
     
     var body: some View {
         LazyVGrid(columns: [.init(.adaptive(minimum: 80))]) {
-            ForEach(memoryGame.cards) { card in
+            ForEach(game.cards) { card in
                 CardView(card: card)
                     .aspectRatio(2/3, contentMode: .fit)
                     .onTapGesture {
-                        memoryGame.choose(card)
+                        game.choose(card)
                     }
             }
         }
@@ -18,7 +18,7 @@ struct EmojiMemoryGameView: View {
 }
 
 struct CardView: View {
-    let card: MemoryGame<String>.Card
+    let card: EmojiMemoryGame.Card
     
     var body: some View {
         GeometryReader { geometry in
@@ -53,6 +53,6 @@ struct CardView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        EmojiMemoryGameView(memoryGame: EmojiMemoryGame())
+        EmojiMemoryGameView(game: EmojiMemoryGame())
     }
 }
